@@ -3,11 +3,30 @@ import OfferBox from './components/OfferBox';
 import GuaranteeSection from './components/GuaranteeSection';
 import FAQSection from './components/FAQSection';
 import SalesNotification from './components/SalesNotification';
-import AuthorSection from './components/AuthorSection';
 import IdealForSection from './components/IdealForSection';
 import ProductContentsSection from './components/ProductContentsSection';
 import BonusSection from './components/BonusSection';
+import CountdownTimer from './components/CountdownTimer';
 import { FEATURES } from './constants';
+
+// Fixed CoverItem by moving it outside of the App component and typing it with React.FC
+// This resolves the TypeScript error where 'key' was not expected in the props type definition.
+const CoverItem: React.FC<{ item: { name: string; url: string } }> = ({ item }) => (
+  <div className="w-48 md:w-72 shrink-0 px-3">
+    <div className="aspect-[9/16] rounded-2xl overflow-hidden shadow-2xl border border-white/20 bg-white/5 transition-transform hover:scale-105 duration-300">
+      <img 
+        src={item.url} 
+        alt={`Capa ${item.name}`}
+        className="w-full h-full object-cover"
+        loading="lazy"
+        decoding="async"
+        width="288"
+        height="512"
+      />
+    </div>
+    <p className="mt-4 text-white/50 text-xs font-bold uppercase tracking-widest">{item.name}</p>
+  </div>
+);
 
 const App: React.FC = () => {
   const scrollToPlans = () => {
@@ -20,16 +39,14 @@ const App: React.FC = () => {
   };
 
   const MONTH_COVERS = [
-    { name: 'Jan', url: 'https://i.imgur.com/wC8nK91.png' },
-    { name: 'Fev', url: 'https://i.imgur.com/LDbd4di.png' },
-    { name: 'Mar', url: 'https://i.imgur.com/18Z4DXE.png' },
-    { name: 'Abr', url: 'https://i.imgur.com/3fQQO93.png' },
-    { name: 'Mai', url: 'https://i.imgur.com/SjxLjrC.png' },
-    { name: 'Jun', url: 'https://i.imgur.com/Xudvbk2.png' },
-    { name: 'Jul', url: 'https://i.imgur.com/SnCRn1I.png' },
+    { name: 'Janeiro', url: 'https://i.imgur.com/wC8nK91.png' },
+    { name: 'Fevereiro', url: 'https://i.imgur.com/LDbd4di.png' },
+    { name: 'Março', url: 'https://i.imgur.com/18Z4DXE.png' },
+    { name: 'Abril', url: 'https://i.imgur.com/3fQQO93.png' },
+    { name: 'Maio', url: 'https://i.imgur.com/SjxLjrC.png' },
+    { name: 'Junho', url: 'https://i.imgur.com/Xudvbk2.png' },
+    { name: 'Julho', url: 'https://i.imgur.com/SnCRn1I.png' },
   ];
-
-  const marqueeItems = [...MONTH_COVERS, ...MONTH_COVERS, ...MONTH_COVERS];
 
   // Avatares para prova social
   const AVATARS = [
@@ -49,25 +66,37 @@ const App: React.FC = () => {
         ⚡ OFERTA ESPECIAL DISPONÍVEL APENAS HOJE <span className="underline decoration-white/40">{getCurrentDate()}</span>
       </div>
 
+      {/* Selo de Compra Segura - Abaixo da faixa vermelha */}
+      <div className="flex justify-center pt-4 pb-0 relative z-40">
+        <div className="bg-[#2dd461] px-4 py-1.5 rounded-full flex items-center gap-2.5 shadow-lg border border-black/10">
+          <span className="text-sm md:text-base">🔒</span>
+          <span className="text-[11px] md:text-[13px] font-semibold text-black uppercase tracking-tighter">
+            COMPRA 100% SEGURA E PROTEGIDA
+          </span>
+        </div>
+      </div>
+
       <header className="px-4 pt-6 pb-0 text-center max-w-5xl mx-auto">
         {/* Título Principal */}
         <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold leading-[1.1] mb-4 tracking-tight">
           Devocional diário <span className="text-yellow-300">365 dias com maria</span> - Edição 2026
         </h1>
 
-        {/* Mockup LCP */}
+        {/* Mockup LCP - Adicionado rounded-3xl para arredondar extremidades */}
         <div className="relative flex justify-center pt-2 mb-4 w-full">
           <div className="absolute inset-0 bg-white/5 blur-[120px] rounded-full scale-110"></div>
-          <img 
-            src="https://i.imgur.com/8squ2g7.png" 
-            alt="Devocional 365 Dias com Maria Bundle" 
-            className="w-full max-w-4xl h-auto relative z-10 drop-shadow-[0_20px_50px_rgba(0,0,0,0.5)]"
-            width="1200"
-            height="800"
-            fetchpriority="high"
-            loading="eager"
-            decoding="sync"
-          />
+          <div className="rounded-3xl overflow-hidden relative z-10 drop-shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
+            <img 
+              src="https://i.imgur.com/8squ2g7.png" 
+              alt="Devocional 365 Dias com Maria Bundle" 
+              className="w-full max-w-4xl h-auto block"
+              width="1200"
+              height="800"
+              fetchPriority="high"
+              loading="eager"
+              decoding="sync"
+            />
+          </div>
         </div>
 
         {/* Subheadline Persuasiva: Fonte Regular e Cor Viva */}
@@ -109,46 +138,43 @@ const App: React.FC = () => {
         </div>
       </section>
 
-      {/* BLOCO SELECIONADO NA COR PRETA #000000 */}
-      <section className="py-16 text-center bg-[#000000] border-y border-white/10">
+      {/* BLOCO SELECIONADO NA COR PRETA #000000 - CARROSSEL CORRIGIDO */}
+      <section className="py-20 text-center bg-[#000000] border-y border-white/10 overflow-hidden">
         <div className="max-w-4xl mx-auto mb-12 px-4">
           <h3 className="text-3xl md:text-5xl font-bold text-white leading-[1.1] tracking-tight">
             Veja um dos materiais que você vai receber na prática:
           </h3>
         </div>
         
-        {/* Carrossel de Capas */}
-        <div className="relative w-full overflow-hidden">
-          <div className="animate-marquee gap-6 flex">
-            {marqueeItems.map((item, idx) => (
-              <div key={idx} className="w-48 md:w-72 shrink-0">
-                <div className="aspect-[9/16] rounded-2xl overflow-hidden shadow-2xl border border-white/20 bg-white/5">
-                  <img 
-                    src={item.url} 
-                    alt={`Capa ${item.name}`}
-                    className="w-full h-full object-cover"
-                    loading="lazy"
-                    decoding="async"
-                    width="288"
-                    height="512"
-                  />
-                </div>
-              </div>
-            ))}
+        {/* Carrossel de Capas Infinito */}
+        <div className="relative w-full overflow-hidden cursor-grab active:cursor-grabbing">
+          <div className="animate-marquee flex flex-nowrap">
+            {/* Trilha 1 */}
+            <div className="flex flex-nowrap">
+              {MONTH_COVERS.map((item, idx) => (
+                <CoverItem key={`t1-${idx}`} item={item} />
+              ))}
+            </div>
+            {/* Trilha 2 (Duplicata Exata) */}
+            <div className="flex flex-nowrap">
+              {MONTH_COVERS.map((item, idx) => (
+                <CoverItem key={`t2-${idx}`} item={item} />
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
       {/* Características do Produto */}
-      <section className="px-6 py-12 bg-[#fefaf9] relative">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="text-4xl md:text-5xl font-black text-center mb-10 text-[#2c1810] leading-tight">
-            O que você <span className="text-red-600 block sm:inline">vai aprender</span>
+      <section className="px-4 py-12 bg-[#fefaf9] relative">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-4xl md:text-5xl font-black text-center mb-10 text-[#2c1810] leading-tight px-4">
+            O que você <span className="text-red-600 block sm:inline">vai aprender:</span>
           </h2>
           
-          <div className="grid md:grid-cols-2 gap-8">
+          <div className="grid md:grid-cols-2 gap-6 md:gap-8 px-2 md:px-0">
             {FEATURES.map((feature, idx) => (
-              <div key={idx} className="bg-white p-10 rounded-[2.5rem] border border-gray-200 shadow-sm flex flex-col items-center text-center transition-transform hover:scale-[1.02]">
+              <div key={idx} className="bg-white p-8 md:p-10 rounded-[2.5rem] border border-gray-200 shadow-sm flex flex-col items-center text-center transition-transform hover:scale-[1.02]">
                 <div className="text-5xl mb-6">
                   {feature.icon}
                 </div>
@@ -171,20 +197,27 @@ const App: React.FC = () => {
       {/* Seção baseada nos anexos enviados */}
       <ProductContentsSection />
 
+      {/* BonusSection movida para fora do main para ocupar largura total sem as bordas cinzas */}
+      <BonusSection />
+
       <main className="px-4 py-12">
         <div className="max-w-6xl mx-auto text-center">
           
-          {/* BonusSection adicionada acima da escolha de planos conforme solicitado */}
-          <BonusSection />
-
-          <div id="escolha-seu-plano" className="mb-10 scroll-mt-20">
-            <h2 className="text-3xl md:text-5xl font-bold mb-3 text-white">Escolha seu plano</h2>
-            <p className="text-lg opacity-60 italic text-white/60">Acesso imediato para começar sua jornada</p>
+          {/* CABEÇALHO DE PLANOS FIEL À IMAGEM */}
+          <div id="escolha-seu-plano" className="mb-14 scroll-mt-24 flex flex-col items-center gap-6">
+            {/* Título Dual Tone: Branco e Vermelho - Fonte Aumentada conforme solicitado */}
+            <h2 className="text-5xl md:text-[110px] font-black text-center leading-[0.9] tracking-tighter max-w-5xl mx-auto">
+              <span className="text-white block">Escolha o Melhor</span>
+              <span className="text-[#ff3b3b] block">Plano Para Você!</span>
+            </h2>
           </div>
+
+          {/* CRONÔMETRO REGRESSIVO - Reposicionado abaixo do título conforme solicitado */}
+          <CountdownTimer />
 
           <OfferBox />
           
-          <div className="my-10 flex flex-col items-center gap-6 opacity-30">
+          <div className="my-8 flex flex-col items-center gap-2 opacity-30">
             <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-white">Ambiente 100% Seguro</p>
             <div className="flex gap-6 text-2xl text-white">
               <i className="fa-brands fa-cc-visa"></i>
@@ -195,7 +228,6 @@ const App: React.FC = () => {
           </div>
 
           <GuaranteeSection />
-          <AuthorSection />
           <FAQSection />
         </div>
       </main>

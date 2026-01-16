@@ -10,38 +10,39 @@ interface BonusCardProps {
 
 const BonusCard: React.FC<BonusCardProps> = ({ id, title, description, value, imageUrl }) => {
   return (
-    <div className="bg-[#000000] rounded-[2rem] overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)] flex flex-col border border-white/10 transition-transform hover:scale-[1.01] group">
-      {/* Imagem do Bônus com Badge Amarelo Estilo "Adesivo" */}
-      <div className="relative w-full aspect-[16/10] overflow-hidden">
+    <div className="group bg-[#0a0a0a] rounded-[2.5rem] overflow-hidden border-4 border-black shadow-2xl flex flex-col h-full transition-all hover:border-black/80">
+      
+      {/* Área da Imagem com Selo Amarelo */}
+      <div className="relative w-full aspect-[4/3] overflow-hidden border-b-4 border-black">
         <img 
           src={imageUrl} 
           alt={title} 
-          className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity"
+          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
           loading="lazy"
         />
-        {/* Badge Amarelo BÔNUS #X - Idêntico ao da imagem */}
-        <div className="absolute top-4 right-4 bg-[#facc15] text-black font-black px-5 py-2 rounded-xl text-sm md:text-base shadow-xl transform rotate-3 border-2 border-black/10">
+        {/* Selo Amarelo - Agora arredondado e com borda mais grossa */}
+        <div className="absolute top-5 right-5 bg-[#facc15] text-black font-black px-5 py-2 rounded-full text-xs shadow-xl border-2 border-black uppercase tracking-tighter">
           BÔNUS #{id}
         </div>
       </div>
 
       {/* Conteúdo do Card */}
-      <div className="p-10 flex flex-col flex-grow text-left bg-[#080808]">
-        <h3 className="text-2xl md:text-3xl font-black text-white mb-5 uppercase leading-none tracking-tight">
+      <div className="p-8 flex flex-col flex-grow text-left">
+        <h3 className="text-white font-black text-2xl mb-4 uppercase leading-tight tracking-tight">
           {title}
         </h3>
 
-        <p className="text-gray-300 text-base md:text-lg leading-relaxed mb-10 flex-grow font-normal opacity-70">
+        <p className="text-white/60 text-base md:text-lg leading-relaxed font-normal mb-8 flex-grow">
           {description}
         </p>
 
-        {/* Footer de Valor - Cópia Fiel da imagem */}
-        <div className="bg-[#1a1a1a] border border-[#ff3b3b]/60 rounded-2xl py-4 px-6 flex justify-center items-center gap-2 shadow-xl">
-          <span className="text-white text-base md:text-lg font-bold">Valor:</span>
-          <span className="text-[#ff3b3b] font-bold text-base md:text-lg line-through decoration-2">
+        {/* Barra de Valor - Agora arredondada e com borda mais grossa */}
+        <div className="bg-[#1e1e1e] border-4 border-black rounded-2xl py-4 px-6 flex items-center justify-center gap-2 shadow-[inset_0_0_15px_rgba(0,0,0,0.3)]">
+          <span className="text-white/60 text-sm font-bold">Valor:</span>
+          <span className="text-red-500 font-bold text-lg line-through decoration-[2px]">
             {value}
           </span>
-          <span className="text-white font-black text-xl md:text-2xl uppercase tracking-tighter ml-1">
+          <span className="text-[#2ed462] font-black text-lg ml-1 uppercase">
             GRÁTIS
           </span>
         </div>

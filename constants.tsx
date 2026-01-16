@@ -27,7 +27,7 @@ export const FEATURES: FeatureItemExtended[] = [
   {
     icon: "⚡",
     title: "Desafios práticos",
-    description: "que incentivam a aplicação dos ensinamentos de Maria em sua vida cotidiana, fazendo com que sua caminhada com Cristo se torne mais profunda",
+    description: "que incentivam a aplicação dos ensinamentos de Maria no dia a dia, aprofundando sua caminhada com Cristo",
   },
   {
     icon: "✝️",
